@@ -1,88 +1,59 @@
 package dev.lpa.goutbackend.tour;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.lpa.goutbackend.tour.dtos.CreateTourDto;
+import dev.lpa.goutbackend.tour.models.Tour;
 
 
 @RestController
-@RequestMapping("/tour")
+@RequestMapping("/api/v1/tours")
 public class TourController {
 
-    private static final AtomicInteger ATOMIC_INTEGER = new AtomicInteger(0);
+    private final TourServiceImp tourServiceImp;
 
-    private final Map<Integer,Tour> tourTemp;
-    private final Logger logger = LoggerFactory.getLogger(TourController.class);
-
-    public TourController(){
-        this.tourTemp = new HashMap<>();
+    public TourController(TourServiceImp tourServiceImp){
+        this.tourServiceImp = tourServiceImp;
     }
 
-    //| CRUD
-    //* Get ALL 
-    @GetMapping
-    public List<Tour> getTours() {
-
-        logger.info("Get all tour");
-        return List.copyOf(tourTemp.values());
-    }
-    //* Get by id */
-    @GetMapping("/{id}")
-    public Tour getTourById(@PathVariable int id) {
-    logger.info("Get tour: {}", id);
-    return Optional.ofNullable(tourTemp.get(id))
-            .orElseThrow(() -> {
-                logger.error("Tour ID: {} not founded", id);  // แก้ไขการใช้ logger.error
-                return new RuntimeException("Not found");
-            });
-    }
-    //* Create tour */
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Tour createTour(@RequestBody Tour tour) {
-        Tour newTour = new Tour(ATOMIC_INTEGER.incrementAndGet(),tour.title(),tour.maxPeople());
-        Integer id = newTour.id();
-        tourTemp.put(id, newTour);
-        logger.info("Create tour: {}",tourTemp.get(id));
-        return getTourById(id);
+    public ResponseEntity<Tour> createTour(@RequestBody @Validated CreateTourDto body) {
+        Tour tour = tourServiceImp.createTour(body);
+        return ResponseEntity.status(HttpStatus.CREATED).body(tour);
     }
-    //* Update tour */
-    @PutMapping("/{id}")
-    public Tour updateTour(@PathVariable int id, @RequestBody Tour tour) {
-        Tour updatedTour = new Tour(id,tour.title(),tour.maxPeople());
-        tourTemp.put(id, updatedTour);
-        logger.info("update tour: {}",tourTemp.get(id));
-        return getTourById(id);
-    }
-    //* Delete tour by id */
-    @DeleteMapping("/{id}")
-    public String deleteTour(@PathVariable int id) {
-        if(!tourTemp.containsKey(id)) {
-            logger.error("Tour ID: {} not founded", id);
-            return "not found tour";
-        }else {
-            tourTemp.remove(id);
-            logger.info("Delete tour: {} success",id);
-            return "success";
-        }
+
+    @GetMapping
+    //NOTE: pagination in Spring Boot
+    public ResponseEntity<Page<Tour>> getPageTour(
+            @RequestParam(required = true) int page, // page: 1,2,3
+            @RequestParam(required = true) int size, // size: 10 -> [1-10], [11-20], [21-30]
+            @RequestParam(required = false) String sortField, // sortField: title, activity_date
+            @RequestParam(required = false) String sortDirection // sortDirection: asc, desc
+    ) {
+
+        Sort sort = Sort.by(Sort.Direction.valueOf(sortDirection.toUpperCase()), sortField);
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
+        
+        return ResponseEntity.ok().body(tourServiceImp.getPageTour(pageable));
     }
 
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Tour> getTourById(@PathVariable int id) {
+        return ResponseEntity.ok().body(tourServiceImp.gettourById(id));
+    }
 
 }

@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import dev.lpa.goutbackend.commons.exceptions.EntityNotFound;
 
+//NOTE: use to handle all exception in application
 @RestControllerAdvice
 public class ResponseAdviceHandler extends ResponseEntityExceptionHandler{
     
@@ -53,6 +54,7 @@ public class ResponseAdviceHandler extends ResponseEntityExceptionHandler{
              err.getMessage()
         );
         logger.error(err.getMessage());
+        err.printStackTrace();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(detail);
     }
 }

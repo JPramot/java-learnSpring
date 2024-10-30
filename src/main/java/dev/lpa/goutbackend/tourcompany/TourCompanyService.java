@@ -7,9 +7,7 @@ public interface TourCompanyService {
 
     TourCompany registerTourCompany(RegisterTourCompanyDto payload);
 
-    TourCompany findTourCompanyById(Integer id);
-
-    TourCompany updateTourCompany(RegisterTourCompanyDto payload);
-
     TourCompany approveTourCompany(Integer id);
+
+    TourCompany getTourCompanyById(Integer id);
 }

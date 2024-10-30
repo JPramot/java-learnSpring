@@ -1,0 +1,23 @@
+### 
+//NOTE: create new tour
+POST {{baseUrl}}/tours
+Content-Type: application/json
+
+{
+    "title":"tour to thailand",
+    "activity_date":"2024-11-20T10:00:00.000000Z",
+    "tour_company_id":6,
+    "location":"Bangkok",
+    "description":"temple",
+    "numberOfPeople":40
+}
+
+
+###
+//NOTE: get tour (Pagination)
+GET {{baseUrl}}/tours?page=2&size=2&sortField=id&sortDirection=desc
+
+
+###
+//NOTE: get tour by id
+GET {{baseUrl}}/tours/5

@@ -4,9 +4,11 @@ POST http://localhost:8080/api/v1/tour-companies
 Content-Type: application/json
 
 {
-    "name":"test status"
+    "name":"test st",
+    "userName": "jjjk",
+    "password": "123456"
 }
 
 ###
 //NOTE: approve tour
-PATCH http://localhost:8080/api/v1/tour-companies/20/approve
+PATCH http://localhost:8080/api/v1/tour-companies/7/approve

@@ -31,8 +31,6 @@ public class TourCompanyController {
     public ResponseEntity<TourCompany> registerTourCompany(@RequestBody @Validated RegisterTourCompanyDto body) {
         //NOTE: create new tourCompany
         TourCompany tourCompany = tourCompanyService.registerTourCompany(body);
-
-        //NOTE: create tourcCompany login credential
         return ResponseEntity.status(HttpStatus.CREATED).body(tourCompany);
     }
     
