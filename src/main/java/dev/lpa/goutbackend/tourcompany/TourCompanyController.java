@@ -35,7 +35,7 @@ public class TourCompanyController {
     }
     
     @PatchMapping("/{id}/approve")
-    public ResponseEntity<TourCompany> patchMethodName(@PathVariable Integer id) {
+    public ResponseEntity<TourCompany> approveTourCompany(@PathVariable Integer id) {
         
         TourCompany tourCompany = tourCompanyService.approveTourCompany(id);
         if(tourCompany == null) {

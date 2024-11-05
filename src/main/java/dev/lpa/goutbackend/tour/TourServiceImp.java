@@ -15,23 +15,23 @@ import dev.lpa.goutbackend.tour.models.Tour;
 import dev.lpa.goutbackend.tour.models.TourCount;
 import dev.lpa.goutbackend.tour.repo.TourCountRepository;
 import dev.lpa.goutbackend.tour.repo.TourRepository;
-import dev.lpa.goutbackend.tourcompany.TourCompanyServiceImpl;
 import dev.lpa.goutbackend.tourcompany.models.TourCompany;
+import dev.lpa.goutbackend.tourcompany.repo.TourCompanyRepository;
 
 @Service
 public class TourServiceImp implements TourService {
 
     private final TourRepository tourRepository;
-    private final TourCompanyServiceImpl tourCompanyServiceImpl;
     private final TourCountRepository tourCountRepository;
+    private final TourCompanyRepository tourCompanyRepository;
 
     private final Logger logger = LoggerFactory.getLogger(TourServiceImp.class);
 
     public TourServiceImp(TourRepository tourRepository,
-        TourCompanyServiceImpl tourCompanyServiceImpl,
-        TourCountRepository tourCountRepository) {
+        TourCountRepository tourCountRepository,
+        TourCompanyRepository tourCompanyRepository) {
+        this.tourCompanyRepository=tourCompanyRepository;
         this.tourCountRepository=tourCountRepository;
-        this.tourCompanyServiceImpl = tourCompanyServiceImpl;
         this.tourRepository = tourRepository;
     }
 
@@ -39,10 +39,11 @@ public class TourServiceImp implements TourService {
     @Transactional
     public Tour createTour(CreateTourDto tour) {
 
-        TourCompany existTourCompany = tourCompanyServiceImpl.
-                getTourCompanyById(tour.tour_company_id());
+        TourCompany exist = tourCompanyRepository.findById(tour.tour_company_id())
+                                .orElseThrow(()->new EntityNotFound(String.format("tourCompany id: %d not found", 
+                                                                        tour.tour_company_id())));
                 
-        AggregateReference<TourCompany,Integer> tourCompanyRef = AggregateReference.to(existTourCompany.id());        
+        AggregateReference<TourCompany,Integer> tourCompanyRef = AggregateReference.to(exist.id());        
         Tour newTour = tourRepository.save(new Tour(null,
             tourCompanyRef,
             tour.title(), 
