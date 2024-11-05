@@ -1,7 +1,5 @@
 package dev.lpa.goutbackend.tourcompany;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @RequestMapping("/api/v1/tour-companies")
 public class TourCompanyController {
-    private final Logger logger = LoggerFactory.getLogger(TourCompanyController.class);
     private final TourCompanyService tourCompanyService;
 
     public TourCompanyController(TourCompanyService tourCompanyService) {
@@ -38,11 +35,9 @@ public class TourCompanyController {
     public ResponseEntity<TourCompany> approveTourCompany(@PathVariable Integer id) {
         
         TourCompany tourCompany = tourCompanyService.approveTourCompany(id);
-        if(tourCompany == null) {
-            logger.info("[approveCompany] tourCompany id: {} not found", id);
-            return ResponseEntity.notFound().build();
-        }
-        logger.info("[approveCompany] tourCompany id: {} was approves", id);
+        // if(tourCompany == null) {
+        //     return ResponseEntity.notFound().build();
+        // }
         return ResponseEntity.ok(tourCompany);
 
     }

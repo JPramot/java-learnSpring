@@ -23,15 +23,15 @@ import dev.lpa.goutbackend.tour.models.Tour;
 @RequestMapping("/api/v1/tours")
 public class TourController {
 
-    private final TourServiceImp tourServiceImp;
+    private final TourService tourService;
 
-    public TourController(TourServiceImp tourServiceImp){
-        this.tourServiceImp = tourServiceImp;
+    public TourController(TourService tourService){
+        this.tourService = tourService;
     }
 
     @PostMapping
     public ResponseEntity<Tour> createTour(@RequestBody @Validated CreateTourDto body) {
-        Tour tour = tourServiceImp.createTour(body);
+        Tour tour = tourService.createTour(body);
         return ResponseEntity.status(HttpStatus.CREATED).body(tour);
     }
 
@@ -47,13 +47,13 @@ public class TourController {
         Sort sort = Sort.by(Sort.Direction.valueOf(sortDirection.toUpperCase()), sortField);
         Pageable pageable = PageRequest.of(page - 1, size, sort);
         
-        return ResponseEntity.ok().body(tourServiceImp.getPageTour(pageable));
+        return ResponseEntity.ok().body(tourService.getPageTour(pageable));
     }
 
 
     @GetMapping("/{id}")
     public ResponseEntity<Tour> getTourById(@PathVariable int id) {
-        return ResponseEntity.ok().body(tourServiceImp.gettourById(id));
+        return ResponseEntity.ok().body(tourService.gettourById(id));
     }
 
 }
