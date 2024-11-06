@@ -1,4 +1,4 @@
-package dev.lpa.point.models;
+package dev.lpa.goutbackend.point.models;
 
 import java.time.Instant;
 

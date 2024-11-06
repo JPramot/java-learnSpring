@@ -1,4 +1,4 @@
-package dev.lpa.wallet.models;
+package dev.lpa.goutbackend.wallet.models;
 
 import java.math.BigDecimal;
 import java.time.Instant;

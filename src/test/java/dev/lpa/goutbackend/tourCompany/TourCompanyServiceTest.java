@@ -29,8 +29,8 @@ import dev.lpa.goutbackend.tourcompany.models.TourCompany;
 import dev.lpa.goutbackend.tourcompany.models.TourCompanyLogin;
 import dev.lpa.goutbackend.tourcompany.repo.TourCompanyLoginRepository;
 import dev.lpa.goutbackend.tourcompany.repo.TourCompanyRepository;
-import dev.lpa.wallet.models.TourCompanyWallet;
-import dev.lpa.wallet.repo.TourCompanyWalletRepository;
+import dev.lpa.goutbackend.wallet.models.TourCompanyWallet;
+import dev.lpa.goutbackend.wallet.repo.TourCompanyWalletRepository;
 
 @ExtendWith(MockitoExtension.class)
 class TourCompanyServiceTest {
