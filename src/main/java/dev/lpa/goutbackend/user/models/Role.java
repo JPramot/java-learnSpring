@@ -1,4 +1,4 @@
-package dev.lpa.goutbackend.user;
+package dev.lpa.goutbackend.user.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;

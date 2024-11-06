@@ -83,6 +83,23 @@ class TourControllerTest {
 
         }
 
+    @Test 
+    void whenCreateTourButInvalidArgument() throws Exception {
+
+        var mockCreateTourDto = new CreateTourDto(1, 
+                                null, 
+                                10,
+                                "description", 
+                                "BKK", 
+                                Instant.now().plus(Duration.ofDays(5)));
+        
+        mockMvc.perform(
+            MockMvcRequestBuilders.post("/api/v1/tours")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(objectMapper.writeValueAsString(mockCreateTourDto)))
+            .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
     @Test
     void whenGetTourByIdSuccess() throws Exception {
         var mockTour = new Tour(1,

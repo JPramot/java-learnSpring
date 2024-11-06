@@ -4,6 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import dev.lpa.goutbackend.user.models.Role;
+import dev.lpa.goutbackend.user.repo.RoleRepository;
+
 @Service
 public class RoleService {
     private final RoleRepository roleRepository;

@@ -15,10 +15,10 @@ import dev.lpa.goutbackend.commons.exceptions.EntityNotFound;
 import dev.lpa.goutbackend.tourcompany.dtos.RegisterTourCompanyDto;
 import dev.lpa.goutbackend.tourcompany.models.TourCompany;
 import dev.lpa.goutbackend.tourcompany.models.TourCompanyLogin;
-import dev.lpa.goutbackend.tourcompany.models.TourCompanyWallet;
 import dev.lpa.goutbackend.tourcompany.repo.TourCompanyLoginRepository;
 import dev.lpa.goutbackend.tourcompany.repo.TourCompanyRepository;
-import dev.lpa.goutbackend.tourcompany.repo.TourCompanyWalletRepository;
+import dev.lpa.wallet.models.TourCompanyWallet;
+import dev.lpa.wallet.repo.TourCompanyWalletRepository;
 
 @Service
 public class TourCompanyServiceImpl implements TourCompanyService {

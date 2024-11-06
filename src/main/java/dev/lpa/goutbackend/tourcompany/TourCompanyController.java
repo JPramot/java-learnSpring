@@ -35,9 +35,6 @@ public class TourCompanyController {
     public ResponseEntity<TourCompany> approveTourCompany(@PathVariable Integer id) {
         
         TourCompany tourCompany = tourCompanyService.approveTourCompany(id);
-        // if(tourCompany == null) {
-        //     return ResponseEntity.notFound().build();
-        // }
         return ResponseEntity.ok(tourCompany);
 
     }

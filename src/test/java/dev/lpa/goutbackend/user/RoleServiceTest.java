@@ -13,6 +13,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import dev.lpa.goutbackend.commons.enumulation.RoleEnum;
+import dev.lpa.goutbackend.user.models.Role;
+import dev.lpa.goutbackend.user.repo.RoleRepository;
 
 
 @ExtendWith(MockitoExtension.class) //* บอกว่าใช้ Mockito เป็น extension ของ JUnit
