@@ -5,5 +5,8 @@ import dev.lpa.goutbackend.tourcompany.models.TourCompanyLogin;
 
 public interface TourCompanyLoginRepository extends CrudRepository<TourCompanyLogin, Integer> {
 
+
     
 } 
+
+
