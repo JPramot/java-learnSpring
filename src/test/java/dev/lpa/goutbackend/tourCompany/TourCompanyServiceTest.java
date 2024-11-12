@@ -58,13 +58,13 @@ class TourCompanyServiceTest {
 
         when(passwordEncoder.encode(anyString())).thenReturn("encryptedPassword");
 
-        var tourCompanyCredential = new TourCompanyLogin(1, 
+        var tourCompanyCredential = new TourCompanyLogin(1,
                 AggregateReference.to(1), "gout", "encryptedPassword");
         when(tourCompanyLoginRepository.save(any(TourCompanyLogin.class)))
                 .thenReturn(tourCompanyCredential);
-        
+
         RegisterTourCompanyDto payload = new RegisterTourCompanyDto(
-            null, "Test create", "gout", "123456", null);
+                null, "Test create", "gout", "123456", null);
         var actual = tourCompanyService.registerTourCompany(payload);
 
         Assertions.assertNotNull(actual);
@@ -97,15 +97,15 @@ class TourCompanyServiceTest {
 
     @Test
     void shouldThrowErrorWhenApproveButNotFoundedTourcompany() {
-        
+
         when(tourCompanyRepository.findById(anyInt())).thenReturn(Optional.empty());
-        var exception = Assertions.assertThrows(EntityNotFound.class, 
-                            () -> tourCompanyService.approveTourCompany(1));
-        Assertions.assertEquals(String.format("tourCompany id: %d not found", 1), 
-                            exception.getMessage());
+        var exception = Assertions.assertThrows(EntityNotFound.class,
+                () -> tourCompanyService.approveTourCompany(1));
+        Assertions.assertEquals(String.format("tourCompany id: %d not found", 1),
+                exception.getMessage());
     }
 
-    @Test 
+    @Test
     void shouldReturnTourCompanyWhenGetTourCompanyById() {
         TourCompany mockTourCompany = new TourCompany(1, "test get", TourCompanyStatus.APPROVED.name());
         when(tourCompanyRepository.findById(1)).thenReturn(Optional.of(mockTourCompany));
@@ -119,8 +119,8 @@ class TourCompanyServiceTest {
 
     @Test
     void shouldThrowErrorWhenNotFoundedTourCompany() {
-        
-         // Arrange
+
+        // Arrange
         Integer id = 2;
         when(tourCompanyRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -130,6 +130,5 @@ class TourCompanyServiceTest {
         });
         assertEquals("entity not founded", exception.getMessage());
     }
-
 
 }

@@ -1,11 +1,31 @@
 ###
+// NOTE: create user (role consumer)
 POST {{baseUrl}}/users
 Content-Type: application/json
 
 {
-    "firstName" : "jim",
-    "lastName" : "Doe",
-    "email" : "johnDer@gmail.com",
-    "phoneNumber" : "1234567890",
+    "firstName" : "jimmy",
+    "lastName" : "Doed",
+    "email" : "jdkksks@gmail.com",
+    "phoneNumber" : "0000000001",
     "password" : "123456"
 }
+
+###
+// NOTE: get user
+GET {{baseUrl}}/users/11
+
+###
+// NOTE: update user info
+PATCH {{baseUrl}}/users/11
+Content-Type: application/json
+
+{
+    "firstName" : "jinny",
+    "lastName" : "ddoe",
+    "phoneNumber" : "1212312121"
+}
+
+###
+// NOTE: delete user with all relate data
+DELETE {{baseUrl}}/users/17
