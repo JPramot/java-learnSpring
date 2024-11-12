@@ -53,7 +53,7 @@ public class UserServiceImp implements UserService {
         }
         var existPhone = findUserByPhone(createUserDto.phoneNumber());
         if (existPhone.isPresent()) {
-            throw new CredentialExistException(String.format("user with phone %s already exist",
+            throw new CredentialExistException(String.format("user with phoneNumber %s already exist",
                     createUserDto.phoneNumber()));
         }
         Instant time = Instant.now();
@@ -120,6 +120,8 @@ public class UserServiceImp implements UserService {
         authService.deleteUserCredentialByUserId(existUser.id());
         userPointService.deleteUserPointByUserId(existUser.id());
         userWalletService.deleteUserWalletByUserId(existUser.id());
+
+        userRepository.delete(existUser);
 
         logger.info("deleted user and all related entities with userId: {}", id);
 

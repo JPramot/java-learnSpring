@@ -13,7 +13,7 @@ Content-Type: application/json
 
 ###
 // NOTE: get user
-GET {{baseUrl}}/users/11
+GET {{baseUrl}}/users/66
 
 ###
 // NOTE: update user info

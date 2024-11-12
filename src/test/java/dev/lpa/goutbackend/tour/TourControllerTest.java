@@ -50,76 +50,76 @@ class TourControllerTest {
     }
 
     @Test
-    void whenCreateTourSuccess()  {
+    void whenCreateTourSuccess() {
         var mockTour = new Tour(1,
-                             AggregateReference.to(1),
-                            "test create", 
-                            10, 
-                            "description", 
-                            "BKK", 
-                            Instant.now().plus(Duration.ofDays(5)), 
-                            TourStatus.PENDING.name());
-        
+                AggregateReference.to(1),
+                "test create",
+                10,
+                "description",
+                "BKK",
+                Instant.now().plus(Duration.ofDays(5)),
+                TourStatus.PENDING.name());
+
         when(tourService.createTour(any(CreateTourDto.class))).thenReturn(mockTour);
 
-        var mockCreateTourDto = new CreateTourDto(1, 
-                                "test create", 
-                                10,
-                                "description", 
-                                "BKK", 
-                                Instant.now().plus(Duration.ofDays(5)));
+        var mockCreateTourDto = new CreateTourDto(1,
+                "test create",
+                10,
+                "description",
+                "BKK",
+                Instant.now().plus(Duration.ofDays(5)));
 
-        try{
+        try {
             mockMvc.perform(
-                MockMvcRequestBuilders.post("/api/v1/tours")
-                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .content(objectMapper.writeValueAsString(mockCreateTourDto)))
-                .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("test create"));
-        }catch(Exception e){
+                    MockMvcRequestBuilders.post("/api/v1/tours")
+                            .contentType(MediaType.APPLICATION_JSON_VALUE)
+                            .content(objectMapper.writeValueAsString(mockCreateTourDto)))
+                    .andExpect(MockMvcResultMatchers.status().isCreated())
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("test create"));
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        }
+    }
 
-    @Test 
+    @Test
     void whenCreateTourButInvalidArgument() throws Exception {
 
-        var mockCreateTourDto = new CreateTourDto(1, 
-                                null, 
-                                10,
-                                "description", 
-                                "BKK", 
-                                Instant.now().plus(Duration.ofDays(5)));
-        
+        var mockCreateTourDto = new CreateTourDto(1,
+                null,
+                10,
+                "description",
+                "BKK",
+                Instant.now().plus(Duration.ofDays(5)));
+
         mockMvc.perform(
-            MockMvcRequestBuilders.post("/api/v1/tours")
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(objectMapper.writeValueAsString(mockCreateTourDto)))
-            .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                MockMvcRequestBuilders.post("/api/v1/tours")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(mockCreateTourDto)))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
     @Test
     void whenGetTourByIdSuccess() throws Exception {
         var mockTour = new Tour(1,
-                             AggregateReference.to(1),
-                            "test get", 
-                            10, 
-                            "description", 
-                            "BKK", 
-                            Instant.now().plus(Duration.ofDays(5)), 
-                            TourStatus.PENDING.name());
+                AggregateReference.to(1),
+                "test get",
+                10,
+                "description",
+                "BKK",
+                Instant.now().plus(Duration.ofDays(5)),
+                TourStatus.PENDING.name());
 
         when(tourService.gettourById(anyInt())).thenReturn(mockTour);
 
         mockMvc.perform(
-            MockMvcRequestBuilders.get("/api/v1/tours/1")
-                .contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(MockMvcResultMatchers.status().isOk())
-            .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("test get"));
-            
+                MockMvcRequestBuilders.get("/api/v1/tours/1")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("test get"));
+
     }
 
     @Test
@@ -127,38 +127,37 @@ class TourControllerTest {
         when(tourService.gettourById(anyInt())).thenThrow(new EntityNotFound());
 
         mockMvc.perform(
-            MockMvcRequestBuilders.get("/api/v1/tours/1"))
-            .andExpect(MockMvcResultMatchers.status().isNotFound());
+                MockMvcRequestBuilders.get("/api/v1/tours/1"))
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
 
     }
 
     @Test
     void whenGetPageToursSuccess() throws Exception {
         var mockTour = new Tour(1,
-                             AggregateReference.to(1),
-                            "test create", 
-                            10, 
-                            "description", 
-                            "BKK", 
-                            Instant.now().plus(Duration.ofDays(5)), 
-                            TourStatus.PENDING.name());
+                AggregateReference.to(1),
+                "test create",
+                10,
+                "description",
+                "BKK",
+                Instant.now().plus(Duration.ofDays(5)),
+                TourStatus.PENDING.name());
         var mockPage = new PageImpl<>(List.of(mockTour));
 
         when(tourService.getPageTour(any(Pageable.class))).thenReturn(mockPage);
 
         mockMvc.perform(
-            MockMvcRequestBuilders.get("/api/v1/tours?page=1&size=1&sortField=id&sortDirection=asc")
-                .contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(MockMvcResultMatchers.status().isOk())
-            .andExpect(MockMvcResultMatchers.jsonPath("$.content").isArray());
+                MockMvcRequestBuilders.get("/api/v1/tours?page=1&size=1&sortField=id&sortDirection=asc")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.content").isArray());
     }
 
     @Test
     void whenGetPageTourButWrongArgument() throws Exception {
         mockMvc.perform(
-            MockMvcRequestBuilders.get("/api/v1/tours"))
-            .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                MockMvcRequestBuilders.get("/api/v1/tours"))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
-
 
 }

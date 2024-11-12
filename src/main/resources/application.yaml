@@ -10,6 +10,7 @@ spring:
   mvc:
     problemdetails:
       enabled: true
+
   #* Database Connection PostgreSQL
   datasource:
     url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/gout}
